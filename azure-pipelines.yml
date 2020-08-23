@@ -1,0 +1,30 @@
+trigger:
+- master
+- dev
+
+pool:
+  vmImage: 'ubuntu-latest'
+  strategy:
+    matrix:
+      Python38:
+        python.version:'3.8'
+
+steps:
+- script: |
+    python copyMetaDataFile $(dataflowTemplate)_metadata
+  displayName: 'Copy the template file to cloud storage'
+
+- task: Gradle@2
+  inputs:
+    gradleWrapperFile: 'gradlew'
+    workingDirectory: '/'
+    tasks: 'clean run'
+    publishJUnitResults: true
+    testResultsFiles: '**/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    sonarQubeRunAnalysis: false
+    options: '-PmainClass=$(mainClass) -Pargs=project=$(project) --runner=DataflowRunner numWorkers=$(numWorkers)'
+
+- script: |
+    python saveBuildDetails.py $(buildNumber) $(dataflowTemplateLocation) $(runtimeParameters)
+  displayName: 'Saves the build details to data store'

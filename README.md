@@ -4,10 +4,10 @@
 
 - AzureDevOps build pipeline create the Google Dataflow templates in Cloud Storage bucket. Build pipeline in this use case is created using YAML format. Refer to the link Azure Build Pipelines
 
-- Build pipeline contains the following tasks to create the templates
-  - Script task calls the python utility to upload the metadata file of a Dataflow pipeline to cloud storage. For example - script: | python copyMetaDataFile.py $(dtaflowTemplate)_metadata
-  - Gradle build task that accepts the goal & parameters. Goal should be clean run and parameters can be like numWorkers, maxWorkers, project, region.
-  -  Refer the link for more details Gradle build task
+  - Build pipeline contains the following tasks to create the templates
+    - Script task calls the python utility to upload the metadata file of a Dataflow pipeline to cloud storage. For example - script: | python copyMetaDataFile.py $(dtaflowTemplate)_metadata
+    - Gradle build task that accepts the goal & parameters. Goal should be clean run and parameters can be like numWorkers, maxWorkers, project, region.
+    -  Refer the link for more details Gradle build task
 
 - AzureDevops build pipeline saves the build details in Deployment store.
 Build pipeline contains the following tasks to save the build details
